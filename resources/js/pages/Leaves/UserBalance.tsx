@@ -14,6 +14,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import undertime from '@/routes/undertime';
+import { monthName } from '@/lib/utils';
 
 type UserBalanceProps = {
     balances: [
@@ -48,6 +49,8 @@ export default function UserBalance({
         });
     }
 
+    const monthName_ = monthName(filters.year, filters.month);
+
     return (
         <>
             <Head title="User Balance" />
@@ -70,7 +73,7 @@ export default function UserBalance({
                     <div className="space-y-2">
                         <h3 className="flex items-center gap-2 text-sm font-semibold tracking-widest text-brand-accent uppercase">
                             <Calendar1Icon className="h-4 w-4" />
-                            Month Name
+                            {monthName_}
                         </h3>
 
                         <h1 className="text-4xl leading-tight font-bold tracking-tight text-foreground">

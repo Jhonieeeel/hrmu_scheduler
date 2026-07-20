@@ -71,21 +71,11 @@
 }
 
 :root {
-    /* =========================
-       BRAND COLORS
-       ========================= */
-
-    /* Deep Navy / Indigo — matches poster background exactly */
     --brand: oklch(0.27 0.1 280);
     --brand-foreground: oklch(0.98 0 0);
 
-    /* Government Orange — adjusted to match poster's warmer, slightly deeper orange */
     --brand-accent: oklch(0.73 0.155 58);
     --brand-accent-foreground: oklch(0.2 0.04 280);
-
-    /* =========================
-       SURFACES
-       ========================= */
 
     --surface: oklch(1 0 0);
     --surface-foreground: oklch(0.25 0.04 280);
@@ -99,16 +89,8 @@
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.25 0.04 280);
 
-    /* =========================
-       PRIMARY
-       ========================= */
-
     --primary: oklch(0.27 0.1 280);
     --primary-foreground: oklch(0.98 0 0);
-
-    /* =========================
-       SECONDARY
-       ========================= */
 
     --secondary: oklch(0.95 0.01 280);
     --secondary-foreground: oklch(0.25 0.04 280);
@@ -116,16 +98,8 @@
     --muted: oklch(0.95 0.01 280);
     --muted-foreground: oklch(0.55 0.02 280);
 
-    /* =========================
-       ACCENT
-       ========================= */
-
     --accent: oklch(0.73 0.155 58);
     --accent-foreground: oklch(0.2 0.04 280);
-
-    /* =========================
-       SYSTEM
-       ========================= */
 
     --destructive: oklch(0.6 0.2 27);
     --destructive-foreground: oklch(0.98 0 0);
@@ -134,7 +108,6 @@
     --input: oklch(0.9 0.01 280);
     --ring: oklch(0.73 0.155 58);
 
-    /* Charts */
     --chart-1: oklch(0.27 0.1 280);
     --chart-2: oklch(0.73 0.155 58);
     --chart-3: oklch(0.6 0.12 240);
@@ -142,10 +115,6 @@
     --chart-5: oklch(0.72 0.16 30);
 
     --radius: 0.75rem;
-
-    /* =========================
-       SIDEBAR
-       ========================= */
 
     --sidebar: oklch(0.27 0.1 280);
     --sidebar-foreground: oklch(0.98 0 0);
@@ -161,19 +130,11 @@
 }
 
 .dark {
-    /* =========================
-       BRAND
-       ========================= */
-
     --brand: oklch(0.4 0.12 280);
     --brand-foreground: oklch(0.98 0 0);
 
     --brand-accent: oklch(0.8 0.155 58);
     --brand-accent-foreground: oklch(0.2 0.04 280);
-
-    /* =========================
-       DARK SURFACE
-       ========================= */
 
     --surface: oklch(0.15 0.04 280);
     --surface-foreground: oklch(0.98 0 0);
@@ -187,16 +148,8 @@
     --popover: oklch(0.18 0.04 280);
     --popover-foreground: oklch(0.98 0 0);
 
-    /* =========================
-       PRIMARY
-       ========================= */
-
     --primary: oklch(0.4 0.12 280);
     --primary-foreground: oklch(0.98 0 0);
-
-    /* =========================
-       SECONDARY
-       ========================= */
 
     --secondary: oklch(0.25 0.04 280);
     --secondary-foreground: oklch(0.98 0 0);
@@ -204,16 +157,8 @@
     --muted: oklch(0.25 0.04 280);
     --muted-foreground: oklch(0.75 0.02 280);
 
-    /* =========================
-       ACCENT
-       ========================= */
-
     --accent: oklch(0.8 0.155 58);
     --accent-foreground: oklch(0.2 0.04 280);
-
-    /* =========================
-       SYSTEM
-       ========================= */
 
     --destructive: oklch(0.55 0.2 27);
     --destructive-foreground: oklch(0.98 0 0);
@@ -221,10 +166,6 @@
     --border: oklch(0.3 0.04 280);
     --input: oklch(0.3 0.04 280);
     --ring: oklch(0.8 0.155 58);
-
-    /* =========================
-       SIDEBAR
-       ========================= */
 
     --sidebar: oklch(0.18 0.04 280);
     --sidebar-foreground: oklch(0.98 0 0);
@@ -238,13 +179,70 @@
     --sidebar-border: oklch(0.3 0.04 280);
     --sidebar-ring: oklch(0.8 0.155 58);
 
-    /* Charts */
     --chart-1: oklch(0.8 0.155 58);
     --chart-2: oklch(0.6 0.14 240);
     --chart-3: oklch(0.7 0.15 145);
     --chart-4: oklch(0.75 0.16 30);
     --chart-5: oklch(0.8 0.14 320);
 }
+
+.sx-react-calendar-wrapper {
+    width: 100%;
+    max-width: 100vw;
+    height: 3000px;
+    max-height: 100vh;
+
+    /* Background = page background */
+    --sx-color-background: var(--background);
+    --sx-color-on-background: var(--foreground);
+
+    /* Surface = card/table background */
+    --sx-color-surface: var(--card);
+    --sx-color-surface-dim: var(--muted);
+    --sx-color-surface-bright: var(--card);
+    --sx-color-on-surface: var(--card-foreground);
+    --sx-color-surface-container: var(--card);
+    --sx-color-surface-container-low: var(--background);
+    --sx-color-surface-container-high: var(--muted);
+
+    /* Grid lines / dividers */
+    --sx-color-outline: var(--border);
+    --sx-color-outline-variant: var(--border);
+
+    /* Primary = brand navy (today circle, selected states) */
+    --sx-color-primary: var(--brand);
+    --sx-color-on-primary: var(--brand-foreground);
+    --sx-color-primary-container: var(--secondary);
+    --sx-color-on-primary-container: var(--secondary-foreground);
+
+    /* Secondary = brand orange accent */
+    --sx-color-secondary: var(--brand-accent);
+    --sx-color-on-secondary: var(--brand-accent-foreground);
+    --sx-color-secondary-container: var(--muted);
+    --sx-color-on-secondary-container: var(--muted-foreground);
+
+    /* Tertiary — no dedicated slot, safe neutral fallback */
+    --sx-color-tertiary: var(--muted-foreground);
+    --sx-color-on-tertiary: var(--background);
+    --sx-color-tertiary-container: var(--muted);
+    --sx-color-on-tertiary-container: var(--muted-foreground);
+
+    --sx-color-shadow: var(--foreground);
+    --sx-color-surface-tint: var(--brand);
+
+    /* Text — must be explicit or it falls back to hardcoded black */
+    --sx-internal-color-text: var(--foreground);
+    --sx-internal-color-light-gray: var(--muted);
+    --sx-internal-color-gray-ripple-background: var(--muted);
+}
+
+.sx__month-grid-event {
+    min-height: 24px !important;
+    padding: 4px 8px !important;
+    font-size: 13px !important;
+    margin-bottom: 3px !important;
+}
+
 @layer base {
     * {
         @apply border-border;

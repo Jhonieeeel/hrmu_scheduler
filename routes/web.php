@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\UndertimeController;
+use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
@@ -18,6 +19,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post("leaves/undertime", [UndertimeController::class, "store"])->name("undertime.store");
     Route::get("leaves/leave", [LeaveController::class, 'create'])->name('leave.create');
     Route::post("leaves/leave", [LeaveController::class, 'store'])->name('leave.store');
+
+
+    // calendar
+    Route::get("calendar", [CalendarController::class, 'index'])->name('calendar.index');
+    Route::put("calendar/{leave}/update", [CalendarController::class, 'update'])->name('calendar.update');
+    Route::delete("calendar/{leave}/delete", [CalendarController::class, "destroy"])->name("calendar.destroy");
 });
 
 require __DIR__ . '/settings.php';

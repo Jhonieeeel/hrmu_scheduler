@@ -112,6 +112,7 @@ export function DataTable<TData, TValue>({
                                 href={link.url}
                                 key={index}
                                 prefetch
+                                cacheFor="1m"
                                 className={cn(
                                     'rounded-md border px-3 py-2 text-sm transition-colors',
                                     link.active

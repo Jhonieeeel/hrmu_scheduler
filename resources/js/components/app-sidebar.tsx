@@ -1,5 +1,12 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid, PlaneIcon } from 'lucide-react';
+import {
+    BookOpen,
+    Calendar,
+    Calendar1,
+    FolderGit2,
+    LayoutGrid,
+    PlaneIcon,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -16,6 +23,7 @@ import {
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 import leave from '@/routes/leave';
+import calendar from '@/routes/calendar';
 
 const mainNavItems: NavItem[] = [
     {
@@ -27,6 +35,11 @@ const mainNavItems: NavItem[] = [
         title: 'Leaves',
         href: leave.index(),
         icon: PlaneIcon,
+    },
+    {
+        title: 'Calendar',
+        href: calendar.index(),
+        icon: Calendar1,
     },
 ];
 

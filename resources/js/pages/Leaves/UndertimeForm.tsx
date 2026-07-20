@@ -24,7 +24,7 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { User } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { CalendarIcon, Clock3, Timer, TimerOffIcon } from 'lucide-react';
 import { HOURS_TABLE, MINUTES_TABLE } from './constant/Conversion';
 import { differenceInMinutes, format } from 'date-fns';
@@ -97,6 +97,19 @@ export default function UndertimeForm({ users }: UndertimeProps) {
         <>
             <Head title="Undertime Form" />
             <div className="flex h-full w-full max-w-7xl flex-1 flex-col gap-4 space-y-4 overflow-x-auto rounded-xl md:p-14">
+                <div className="mb-4 flex items-center gap-3">
+                    <Link
+                        className="text-muted-foreground hover:text-foreground"
+                        href={leave.index()}
+                    >
+                        Users
+                    </Link>
+                    <span className="text-muted-foreground">/</span>
+                    <span className="font-semibold text-foreground">
+                        Undertime Form
+                    </span>
+                </div>
+
                 <div>
                     <div className="space-y-2">
                         <h1 className="flex items-center gap-4 text-4xl leading-tight font-bold tracking-tight text-foreground">

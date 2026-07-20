@@ -5,7 +5,11 @@ import { Filters, Leave, Pagination } from '@/types';
 import FilterButton from './components/FilterButton';
 import { DataTable } from '../Table/DataTable';
 import { MonthlyFilingColumns } from './components/columns/MonthlyFilingColumns';
-import { Calendar1Icon } from 'lucide-react';
+import { Calendar1Icon, FileSpreadsheet } from 'lucide-react';
+import { Button } from '@base-ui/react';
+import { format } from 'date-fns';
+import { monthName } from '@/lib/utils';
+import DownloadButton from './components/DownloadButton';
 
 type LeaveProps = {
     leaves: Pagination<Leave>;
@@ -25,6 +29,8 @@ export default function Index({ leaves, filters }: LeaveProps) {
         });
     }
 
+    const monthName_ = monthName(filters.year, filters.month);
+
     return (
         <>
             <Head title="Leaves" />
@@ -33,7 +39,7 @@ export default function Index({ leaves, filters }: LeaveProps) {
                     <div className="space-y-2">
                         <h3 className="flex items-center gap-2 text-sm font-semibold tracking-widest text-brand-accent uppercase">
                             <Calendar1Icon className="h-4 w-4" />
-                            Month Name
+                            {monthName_}
                         </h3>
 
                         <h1 className="text-4xl leading-tight font-bold tracking-tight text-foreground">
@@ -47,7 +53,8 @@ export default function Index({ leaves, filters }: LeaveProps) {
                         </p>
                     </div>
 
-                    <div>
+                    <div className="flex items-center gap-3">
+                        <DownloadButton />
                         <FilterButton
                             filters={filters}
                             handleFilterChange={handleFilter}

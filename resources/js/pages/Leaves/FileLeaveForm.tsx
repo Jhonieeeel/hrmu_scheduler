@@ -22,9 +22,10 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { Spinner } from '@/components/ui/spinner';
+import { cn } from '@/lib/utils';
 import leave from '@/routes/leave';
 import { User } from '@/types';
-import { Form, Head, useForm, usePage } from '@inertiajs/react';
+import { Form, Head, Link, useForm, usePage } from '@inertiajs/react';
 
 import { differenceInDays, format, isValid, parse } from 'date-fns';
 import { CalendarIcon, InfoIcon } from 'lucide-react';
@@ -93,6 +94,19 @@ export default function FileLeaveForm() {
         <>
             <Head title="File Leave" />
             <div className="flex h-full w-full max-w-7xl flex-1 flex-col gap-4 space-y-4 overflow-x-auto rounded-xl md:p-14">
+                <div className="mb-4 flex items-center gap-3">
+                    <Link
+                        className="text-muted-foreground hover:text-foreground"
+                        href={leave.index()}
+                    >
+                        Users
+                    </Link>
+                    <span className="text-muted-foreground">/</span>
+                    <span className="font-semibold text-foreground">
+                        File Leave Form
+                    </span>
+                </div>
+
                 <div>
                     <div className="space-y-2">
                         <h1 className="flex items-center gap-4 text-4xl leading-tight font-bold tracking-tight text-foreground">
@@ -106,7 +120,7 @@ export default function FileLeaveForm() {
                         </p>
                     </div>
                 </div>
-                <FieldSet className="w-full max-w-2xl rounded-md shadow-md">
+                <FieldSet className="w-full max-w-2xl rounded-md shadow-md md:p-4">
                     <form onSubmit={handleSubmit} className="space-y-4">
                         {/* User */}
                         <FieldGroup>
@@ -129,7 +143,7 @@ export default function FileLeaveForm() {
                                             )?.name ?? null
                                         }
                                         placeholder="Select an employee"
-                                        className="border-input focus:border-ring focus:ring-ring"
+                                        className="border-input text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-ring"
                                     />
                                     <ComboboxContent>
                                         <ComboboxEmpty>
@@ -177,7 +191,7 @@ export default function FileLeaveForm() {
                                     <ComboboxInput
                                         disabled={!form.data.user_id}
                                         placeholder="Select an event"
-                                        className="border-input focus:border-ring focus:ring-ring"
+                                        className="border-input text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-ring"
                                     />
                                     <ComboboxContent>
                                         <ComboboxEmpty>
@@ -199,39 +213,50 @@ export default function FileLeaveForm() {
                         </FieldGroup>
 
                         {/* Date */}
-                        <FieldGroup className="grid grid-cols-2">
+                        <FieldGroup className="grid grid-cols-2 gap-4">
                             {/* starts_at */}
                             <Field>
-                                <FieldLabel>Starts at</FieldLabel>
+                                <FieldLabel htmlFor="starts-at-trigger">
+                                    Start Date
+                                </FieldLabel>
                                 <Popover
                                     open={startOpen}
                                     onOpenChange={setStartOpen}
                                 >
                                     <PopoverTrigger asChild>
                                         <Button
+                                            id="starts-at-trigger"
                                             variant="outline"
                                             disabled={!form.data.leave_type}
-                                            className="w-full justify-start text-left font-normal"
+                                            className="group w-full justify-start text-left font-normal hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent dark:hover:text-accent-foreground"
                                         >
-                                            <CalendarIcon className="mr-2 h-4 w-4 text-brand-accent" />
-
-                                            {form.data.starts_at &&
-                                            isValid(
-                                                parse(
-                                                    form.data.starts_at,
-                                                    'yyyy-MM-dd',
-                                                    new Date(),
-                                                ),
-                                            )
-                                                ? format(
-                                                      parse(
-                                                          form.data.starts_at,
-                                                          'yyyy-MM-dd',
-                                                          new Date(),
-                                                      ),
-                                                      'PPP',
-                                                  )
-                                                : 'Select start date'}
+                                            <CalendarIcon className="mr-2 h-4 w-4 shrink-0 text-brand-accent group-hover:text-accent-foreground" />
+                                            <span
+                                                className={cn(
+                                                    'truncate',
+                                                    !form.data.starts_at &&
+                                                        'text-muted-foreground group-hover:text-accent-foreground',
+                                                )}
+                                            >
+                                                {form.data.starts_at &&
+                                                isValid(
+                                                    parse(
+                                                        form.data.starts_at,
+                                                        'yyyy-MM-dd',
+                                                        new Date(),
+                                                    ),
+                                                )
+                                                    ? format(
+                                                          parse(
+                                                              form.data
+                                                                  .starts_at,
+                                                              'yyyy-MM-dd',
+                                                              new Date(),
+                                                          ),
+                                                          'PPP',
+                                                      )
+                                                    : 'Select start date'}
+                                            </span>
                                         </Button>
                                     </PopoverTrigger>
                                     <PopoverContent
@@ -290,7 +315,7 @@ export default function FileLeaveForm() {
 
                             {/* ends at */}
                             <Field>
-                                <FieldLabel htmlFor="date-picker-optional">
+                                <FieldLabel htmlFor="ends-at-trigger">
                                     End Date
                                 </FieldLabel>
                                 <Popover
@@ -299,29 +324,31 @@ export default function FileLeaveForm() {
                                 >
                                     <PopoverTrigger asChild>
                                         <Button
+                                            id="ends-at-trigger"
                                             disabled={!form.data.starts_at}
                                             variant="outline"
-                                            className="w-full justify-start text-left font-normal"
+                                            className="group w-full justify-start text-left font-normal hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent dark:hover:text-accent-foreground"
                                         >
-                                            <CalendarIcon className="mr-2 h-4 w-4 text-brand-accent" />
-
-                                            {form.data.ends_at &&
-                                            isValid(
-                                                parse(
-                                                    form.data.ends_at,
-                                                    'yyyy-MM-dd',
-                                                    new Date(),
-                                                ),
-                                            )
-                                                ? format(
-                                                      parse(
-                                                          form.data.ends_at,
-                                                          'yyyy-MM-dd',
-                                                          new Date(),
-                                                      ),
-                                                      'PPP',
-                                                  )
-                                                : 'Select end date'}
+                                            <CalendarIcon className="mr-2 h-4 w-4 shrink-0 text-brand-accent group-hover:text-accent-foreground" />
+                                            <span className="truncate">
+                                                {form.data.ends_at &&
+                                                isValid(
+                                                    parse(
+                                                        form.data.ends_at,
+                                                        'yyyy-MM-dd',
+                                                        new Date(),
+                                                    ),
+                                                )
+                                                    ? format(
+                                                          parse(
+                                                              form.data.ends_at,
+                                                              'yyyy-MM-dd',
+                                                              new Date(),
+                                                          ),
+                                                          'PPP',
+                                                      )
+                                                    : 'Select end date'}
+                                            </span>
                                         </Button>
                                     </PopoverTrigger>
                                     <PopoverContent
@@ -390,7 +417,8 @@ export default function FileLeaveForm() {
                             <div className="flex w-full items-center justify-end gap-3">
                                 <Button
                                     type="button"
-                                    className="bg-brand text-brand-foreground"
+                                    variant="outline"
+                                    className="hover:bg-accent hover:text-accent-foreground"
                                 >
                                     Cancel
                                 </Button>

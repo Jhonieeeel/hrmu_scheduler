@@ -55,3 +55,15 @@ export type Leave = {
 
     user?: User;
 };
+
+export type EventProp = {
+    id: number;
+    title: string;
+    end: Temporal.PlainDate;
+    start: Temporal.PlainDate;
+    user_id: number;
+    user: User;
+    status: boolean;
+    calendarTitle: string;
+    calendarId: string;
+};
