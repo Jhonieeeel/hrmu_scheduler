@@ -7,6 +7,7 @@ use App\Actions\Leave\Calendar\CalendarUpdateAction;
 use App\Actions\Leave\CalendarDeleteAction;
 use App\Data\LeaveData;
 use App\Models\Leave;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,6 +20,7 @@ class CalendarController extends Controller
 
         return inertia::render('Calendar/Index', [
             'calendarEvents' => $events,
+            'users' => User::select(['id', 'name'])->get()
         ]);
     }
 

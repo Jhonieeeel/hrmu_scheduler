@@ -12,7 +12,7 @@ class CalendarIndexAction
         return Leave::query()
             ->with('user:id,name')
             ->where('event_type', 'deduction')
-            ->whereIn('event_tag', ['leave', 'vacation leave'])
+            ->whereIn('event_tag', ['leave', 'vacation leave', 'cto', 'offset'])
             ->select([
                 'id',
                 'user_id',

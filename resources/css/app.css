@@ -206,8 +206,8 @@
     --sx-color-surface-container-high: var(--muted);
 
     /* Grid lines / dividers */
-    --sx-color-outline: var(--border);
-    --sx-color-outline-variant: var(--border);
+    --sx-color-outline: oklch(0.82 0.015 280);
+    --sx-color-outline-variant: oklch(0.88 0.015 280);
 
     /* Primary = brand navy (today circle, selected states) */
     --sx-color-primary: var(--brand);
@@ -241,6 +241,11 @@
     padding: 4px 8px !important;
     font-size: 13px !important;
     margin-bottom: 3px !important;
+}
+
+.dark .sx-react-calendar-wrapper {
+    --sx-color-outline: oklch(0.32 0.04 280);
+    --sx-color-outline-variant: oklch(0.28 0.04 280);
 }
 
 @layer base {

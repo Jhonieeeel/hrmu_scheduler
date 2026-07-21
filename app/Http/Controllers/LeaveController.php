@@ -83,7 +83,7 @@ class LeaveController extends Controller
     {
         $action($leaveData);
 
-        return to_route("leave.show", $request->only(['year', 'month', 'user_id']))->with('message', 'Filed Leave Successfully');
+        return back()->with('message', 'Filed Leave Successfully');
     }
 
     public function accrual(LeaveData $data, MonthlyAccrualAction $action)

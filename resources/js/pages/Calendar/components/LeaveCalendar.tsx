@@ -8,6 +8,8 @@ import 'temporal-polyfill/global';
 import CustomEventModal from './CustomEventModal';
 import { calendarConfig } from '../constants/Constants';
 import '@schedule-x/theme-shadcn/dist/index.css';
+import LeaveFormDialog from './LeaveFormDialog';
+import { cn } from '@/lib/utils';
 
 type EventProp = {
     id: number;
@@ -23,9 +25,13 @@ type EventProp = {
 
 type LeaveCalendarProps = {
     calendarEvents: EventProp[];
+    users: User[];
 };
 
-export default function LeaveCalendar({ calendarEvents }: LeaveCalendarProps) {
+export default function LeaveCalendar({
+    calendarEvents,
+    users,
+}: LeaveCalendarProps) {
     const eventService = useState(() => createEventsServicePlugin())[0];
 
     const [open, setOpen] = useState(false);
@@ -41,6 +47,10 @@ export default function LeaveCalendar({ calendarEvents }: LeaveCalendarProps) {
         calendarTitle: '',
         calendarTheme: '',
     });
+
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const [selectedDate, setSelectedDate] = useState('');
 
     const calendar = useCalendarApp({
         views: [createViewMonthGrid()],
@@ -65,6 +75,10 @@ export default function LeaveCalendar({ calendarEvents }: LeaveCalendarProps) {
 
                 setOpen(true);
             },
+            onClickDate(date) {
+                setOpenDialog((value) => !value);
+                setSelectedDate(date.toString());
+            },
         },
         plugins: [eventService],
     });
@@ -82,7 +96,14 @@ export default function LeaveCalendar({ calendarEvents }: LeaveCalendarProps) {
 
     return (
         <div className="max-w-auto mx-auto">
-            <ScheduleXCalendar calendarApp={calendar} />
+            <div
+                className={cn(
+                    'transition-opacity duration-200',
+                    openDialog && 'pointer-events-none opacity-40',
+                )}
+            >
+                <ScheduleXCalendar calendarApp={calendar} />
+            </div>
 
             {event && (
                 <CustomEventModal
@@ -90,6 +111,15 @@ export default function LeaveCalendar({ calendarEvents }: LeaveCalendarProps) {
                     open={open}
                     onOpenChange={setOpen}
                     calendarEvent={event}
+                />
+            )}
+
+            {users && openDialog && (
+                <LeaveFormDialog
+                    open={openDialog}
+                    onOpenChange={setOpenDialog}
+                    date={selectedDate}
+                    users={users}
                 />
             )}
         </div>

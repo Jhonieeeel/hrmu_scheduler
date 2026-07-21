@@ -1,15 +1,15 @@
 import calendar from '@/routes/calendar';
 import leave from '@/routes/leave';
 import { Head, Link } from '@inertiajs/react';
-import { EventProp } from '@/types';
+import { EventProp, User } from '@/types';
 import LeaveCalendar from './components/LeaveCalendar';
 
 type CalendarProp = {
     calendarEvents: EventProp[];
+    users: User[];
 };
 
-export default function Index({ calendarEvents }: CalendarProp) {
-    console.log(calendarEvents);
+export default function Index({ calendarEvents, users }: CalendarProp) {
     return (
         <>
             <Head title="Calendar" />
@@ -41,7 +41,10 @@ export default function Index({ calendarEvents }: CalendarProp) {
                     </div>
                 </div>
                 <div>
-                    <LeaveCalendar calendarEvents={calendarEvents} />
+                    <LeaveCalendar
+                        users={users}
+                        calendarEvents={calendarEvents}
+                    />
                 </div>
             </div>
         </>
