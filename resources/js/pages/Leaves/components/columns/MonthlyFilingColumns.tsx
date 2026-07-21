@@ -1,3 +1,4 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -12,20 +13,39 @@ import { Leave } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
+import MonthlyFilingDialog from '../MonthlyFilingDialog';
+import { NumberFieldScrubArea } from '@base-ui/react';
 
 export const MonthlyFilingColumns: ColumnDef<Leave>[] = [
     {
         accessorKey: 'user.name',
-        header: 'Employee name',
+        header: () => (
+            <div className="tracking text-xs uppercase">Employe Name</div>
+        ),
     },
     {
         accessorKey: 'status',
-        header: 'Status',
+        header: () => <div className="tracking text-xs uppercase">Status</div>,
+        cell: ({ row }) => {
+            const status = row.original.status;
+
+            const badgeColor = status
+                ? 'bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300'
+                : 'bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300';
+
+            return (
+                <Badge className={`${badgeColor}`}>
+                    {status ? 'Completed' : 'Pending'}
+                </Badge>
+            );
+        },
     },
     {
         id: 'actions',
         cell: ({ row }) => {
             const user_id = row.original.user_id;
+
+            const leaveData = row.original;
 
             return (
                 <DropdownMenu>
@@ -40,11 +60,14 @@ export const MonthlyFilingColumns: ColumnDef<Leave>[] = [
                         <DropdownMenuItem asChild>
                             <Link href={leave.show(user_id)}>View Balance</Link>
                         </DropdownMenuItem>
-                        {/* <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>
-                            View payment details
-                        </DropdownMenuItem> */}
+                        <DropdownMenuSeparator />
+                        <MonthlyFilingDialog leaveData={leaveData}>
+                            <DropdownMenuItem
+                                onSelect={(e) => e.preventDefault()}
+                            >
+                                Filing
+                            </DropdownMenuItem>
+                        </MonthlyFilingDialog>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

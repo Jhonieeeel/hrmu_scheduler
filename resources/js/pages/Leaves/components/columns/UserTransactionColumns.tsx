@@ -147,12 +147,16 @@ export const UserTransactionColumns: ColumnDef<Leave>[] = [
     {
         id: 'actions',
         cell: ({ row }) => {
-            const leave = row.original;
+            const leaveData = row.original;
 
             const leaveForm = useForm();
 
             function handleDelete(e: React.MouseEvent) {
                 e.preventDefault();
+
+                leaveForm.submit(leave.destroy(leaveData.id), {
+                    preserveState: true,
+                });
             }
 
             return (

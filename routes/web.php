@@ -13,6 +13,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Leave
     Route::get('leaves', [LeaveController::class, 'index'])->name('leave.index');
     Route::get('leaves/{user}/balance', [LeaveController::class, 'show'])->name('leave.show');
+    Route::put("leaves/{leave}/update", [LeaveController::class, 'update'])->name('leave.update');
+    Route::post("leaves/{user}/balance/create_accrual", [LeaveController::class, 'accrual'])->name('leave.accrual');
+    Route::delete("leaves/{leave}/delete", [LeaveController::class, 'destroy'])->name('leave.destroy');
 
     // filing undertime/leave,
     Route::get("leaves/undertime", [UndertimeController::class, 'create'])->name('undertime.create');
@@ -25,6 +28,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get("calendar", [CalendarController::class, 'index'])->name('calendar.index');
     Route::put("calendar/{leave}/update", [CalendarController::class, 'update'])->name('calendar.update');
     Route::delete("calendar/{leave}/delete", [CalendarController::class, "destroy"])->name("calendar.destroy");
+
+    // file
+    Route::get("leaves/export", [LeaveController::class, 'export'])->name('leave.export');
 });
 
 require __DIR__ . '/settings.php';

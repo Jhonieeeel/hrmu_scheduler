@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import undertime from '@/routes/undertime';
 import { monthName } from '@/lib/utils';
+import AccrualButton from './components/AccrualButton';
 
 type UserBalanceProps = {
     balances: [
@@ -29,6 +30,7 @@ type UserBalanceProps = {
     transactions: Pagination<Leave>;
     filters: Filters;
     user: User;
+    hasAccrual: boolean;
 };
 
 export default function UserBalance({
@@ -36,6 +38,7 @@ export default function UserBalance({
     transactions,
     balances,
     user,
+    hasAccrual,
 }: UserBalanceProps) {
     function handleFilter(key: keyof Filters, value: string | null) {
         const newFilters = {
@@ -77,8 +80,11 @@ export default function UserBalance({
                         </h3>
 
                         <h1 className="text-4xl leading-tight font-bold tracking-tight text-foreground">
-                            {user.name} Balance
+                            {user.name}
                         </h1>
+                        <h2 className="text-2xl font-semibold dark:text-accent">
+                            Balance
+                        </h2>
 
                         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
                             Monitor team leave entitlements, track utilization
@@ -89,6 +95,14 @@ export default function UserBalance({
 
                     {/* Forms */}
                     <div className="flex items-center gap-2">
+                        {/* accrual */}
+                        {hasAccrual && (
+                            <AccrualButton
+                                filters={filters}
+                                user_id={user.id}
+                            />
+                        )}
+                        {/* forms */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button className="bg-brand-accent text-brand-accent-foreground hover:bg-brand-accent/90">

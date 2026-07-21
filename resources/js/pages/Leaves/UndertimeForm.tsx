@@ -30,6 +30,7 @@ import { HOURS_TABLE, MINUTES_TABLE } from './constant/Conversion';
 import { differenceInMinutes, format } from 'date-fns';
 import { useState } from 'react';
 import undertime from '@/routes/undertime';
+import leave from '@/routes/leave';
 
 type UndertimeProps = {
     users: User[];
@@ -74,8 +75,6 @@ export default function UndertimeForm({ users }: UndertimeProps) {
         const totalUndertime = Number(
             (convertedHours + convertedMinutes).toFixed(3),
         );
-
-        console.log(totalUndertime);
 
         form.setData({
             ...form.data,

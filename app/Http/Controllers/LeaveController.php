@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Leave\Balance\HasAccrualAction;
+use App\Actions\Leave\Balance\MonthlyAccrualAction;
 use App\Actions\Leave\Balance\ReplayBalanceAction;
+use App\Actions\Leave\Export\ExportPdfAction;
 use App\Actions\Leave\Transactions\LeaveAction;
 use App\Actions\Leave\Transactions\TransactionsIndex;
 use App\Data\LeaveData;
@@ -50,8 +53,6 @@ class LeaveController extends Controller
             info($date->copy()->startOfMonth());
             info($date->copy()->endOfMonth());
 
-            info("Fired");
-
             $leaves->whereBetween('starts_at', [
                 $date->copy()->startOfMonth(),
                 $date->copy()->endOfMonth()
@@ -82,14 +83,26 @@ class LeaveController extends Controller
     {
         $action($leaveData);
 
-        return to_route("leave.create")->with('message', 'Filed Leave Successfully');
+        return to_route("leave.show", $request->only(['year', 'month', 'user_id']))->with('message', 'Filed Leave Successfully');
+    }
+
+    public function accrual(LeaveData $data, MonthlyAccrualAction $action)
+    {
+        $action->handleAccrual($data);
+
+        return to_route("leave.index")->with('message', 'Monthly Accrual Created Successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Request $request, User $user, ReplayBalanceAction $balanceAction, TransactionsIndex $transactionAction)
-    {
+    public function show(
+        Request $request,
+        User $user,
+        ReplayBalanceAction $balanceAction,
+        TransactionsIndex $transactionAction,
+        HasAccrualAction $hasAccrualAction
+    ) {
         $month = $request->input("month", now()->month);
         $year = $request->input("year", now()->year);
 
@@ -97,11 +110,13 @@ class LeaveController extends Controller
 
         $balances = $balanceAction->UserBalance($date, $user);
         $transactions = $transactionAction->transactions($date, $user);
+        $hasAccrual = $hasAccrualAction->checkUserStatus($user, $date);
 
         return Inertia::render("Leaves/UserBalance", [
             'balances' => $balances,
             'user' => $user,
             'transactions' => $transactions,
+            'hasAccrual' => $hasAccrual,
             'filters' => $request->only(['year', 'month', 'user_id'])
         ]);
     }
@@ -119,7 +134,17 @@ class LeaveController extends Controller
      */
     public function update(Request $request, Leave $leave)
     {
-        //
+        $validated = $request->validate([
+            'status' => ['required', 'boolean'],
+            'remarks' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $leave->update([
+            'status' => $validated['status'],
+            'remarks' => $validated['remarks']
+        ]);
+
+        return back()->with('message', 'Monthly Filing Updated Successfully!');
     }
 
     /**
@@ -127,6 +152,25 @@ class LeaveController extends Controller
      */
     public function destroy(Leave $leave)
     {
-        //
+        $leave->delete();
+
+        return back()->with('message', 'Leave Balance Deleted Successfully');
+    }
+
+    public function export(Request $request, ExportPdfAction $exportAction, ReplayBalanceAction $balanceAction)
+    {
+        $month = $request->input("month", now()->month);
+        $year = $request->input("year", now()->year);
+
+        $date = Carbon::create($year, $month, 1);
+        $users = User::select(['id', 'name'])->get();
+
+        $usersBalance = $balanceAction->UsersBalances($date, $users);
+        $exportUrl = $exportAction->exportPdf($usersBalance);
+
+        return to_route(
+            'leave.index',
+            $request->only(['year', 'month'])
+        )->with('downloadUrl', $exportUrl);
     }
 }

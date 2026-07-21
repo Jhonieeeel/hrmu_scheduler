@@ -37,7 +37,6 @@ export type Pagination<T> = {
 export type Filters = {
     month: string;
     year: string;
-    search: string;
 };
 
 export type Leave = {

@@ -6,17 +6,18 @@ import FilterButton from './components/FilterButton';
 import { DataTable } from '../Table/DataTable';
 import { MonthlyFilingColumns } from './components/columns/MonthlyFilingColumns';
 import { Calendar1Icon, FileSpreadsheet } from 'lucide-react';
-import { Button } from '@base-ui/react';
-import { format } from 'date-fns';
 import { monthName } from '@/lib/utils';
 import DownloadButton from './components/DownloadButton';
 
 type LeaveProps = {
     leaves: Pagination<Leave>;
     filters: Filters;
+    flash?: {
+        downloadUrl: string;
+    };
 };
 
-export default function Index({ leaves, filters }: LeaveProps) {
+export default function Index({ leaves, filters, flash }: LeaveProps) {
     function handleFilter(key: keyof Filters, value: string | null) {
         const newFilters = {
             ...filters,
@@ -54,7 +55,7 @@ export default function Index({ leaves, filters }: LeaveProps) {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <DownloadButton />
+                        <DownloadButton filters={filters} flash={flash} />
                         <FilterButton
                             filters={filters}
                             handleFilterChange={handleFilter}
