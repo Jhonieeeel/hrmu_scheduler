@@ -114,7 +114,7 @@ export default function ViewEvent({
             {/* Title badge */}
             <div className="border-b px-5 py-3.5">
                 <span
-                    className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium capitalize"
+                    className="tracking inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium uppercase"
                     style={{
                         backgroundColor: theme?.container,
                         color: theme?.onContainer,
