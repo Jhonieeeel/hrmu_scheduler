@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Holiday;
 use App\Models\Leave;
 use App\Models\User;
 use Database\Factories\LeaveFactory;
@@ -53,5 +54,10 @@ class DatabaseSeeder extends Seeder
                 'ends_at' => '2023-01-31'
             ]);
         }
+
+        Holiday::create([
+            'holiday_name' => 'Special Non Working',
+            'holiday_date' => '2026-08-03'
+        ]);
     }
 }
