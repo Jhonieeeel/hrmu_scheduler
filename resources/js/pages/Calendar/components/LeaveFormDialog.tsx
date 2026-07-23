@@ -45,7 +45,7 @@ export default function LeaveFormDialog({
         user_id: 0,
         leave_type: '',
         event_type: 'deduction',
-        event_tag: 'cto',
+        event_tag: '',
         starts_at: date,
         ends_at: date,
         balance: 0,
@@ -53,13 +53,6 @@ export default function LeaveFormDialog({
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
-        if (
-            form.data.leave_type !== 'cto' &&
-            form.data.leave_type !== 'offset'
-        ) {
-            return;
-        }
 
         const startDate = parseISO(form.data.starts_at);
         const endDate = parseISO(form.data.ends_at);
@@ -74,6 +67,9 @@ export default function LeaveFormDialog({
         form.transform((data) => ({
             ...data,
             balance: -days,
+            event_tag: ['cto', 'offset'].includes(form.data.leave_type)
+                ? 'cto'
+                : 'leave',
         }));
 
         form.submit(leave.store(), {

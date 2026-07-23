@@ -3,12 +3,13 @@
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\UndertimeController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    // Route::inertia('dashboard', 'dashboard')->name('dashboard');
 
     // Leave
     Route::get('leaves', [LeaveController::class, 'index'])->name('leave.index');
@@ -31,6 +32,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // file
     Route::get("leaves/export", [LeaveController::class, 'export'])->name('leave.export');
+
+    // dashboard
+    Route::get("dashboard", [DashboardController::class, 'index'])->name('dashboard.index');
 });
 
 require __DIR__ . '/settings.php';

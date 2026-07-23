@@ -14,7 +14,6 @@ import { Link } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import MonthlyFilingDialog from '../MonthlyFilingDialog';
-import { NumberFieldScrubArea } from '@base-ui/react';
 
 export const MonthlyFilingColumns: ColumnDef<Leave>[] = [
     {
