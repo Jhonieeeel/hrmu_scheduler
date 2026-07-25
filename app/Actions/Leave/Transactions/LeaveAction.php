@@ -4,20 +4,44 @@ namespace App\Actions\Leave\Transactions;
 
 use App\Data\LeaveData;
 use App\Models\Leave;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Spatie\LaravelData\Data;
 
 class LeaveAction extends Data
 {
-    public function __invoke(LeaveData $data): void
+
+    protected $workingDaysLeave = [
+        'vacation leave',
+        'force leave',
+        'sick leave',
+        'paternity leave',
+        'special privilege leave',
+        'solo parent leave',
+        '10-day vawc leave',
+        'special emergency (calamity) leave',
+        'wellness leave'
+    ];
+
+    public function createLeaves(array $ranges, LeaveData $data): void
     {
-        Leave::create([
-            'user_id'   => $data->user_id,
-            'leave_type' => $data->leave_type,
-            'event_type' => $data->event_type,
-            'balance'   => $data->balance,
-            'event_tag' => $data->event_tag,
-            'starts_at' => $data->starts_at,
-            'ends_at'   => $data->ends_at
-        ]);
+        DB::transaction(function () use ($ranges, $data) {
+
+            foreach ($ranges as $range) {
+
+                $balance = Carbon::parse($range['starts_at'])
+                    ->diffInDays(Carbon::parse($range['ends_at'])) + 1;
+
+                Leave::create([
+                    'user_id'    => $data->user_id,
+                    'leave_type' => $data->leave_type,
+                    'event_type' => $data->event_type,
+                    'event_tag'  => $data->event_tag,
+                    'balance'    => -$balance,
+                    'starts_at'  => $range['starts_at'],
+                    'ends_at'    => $range['ends_at'],
+                ]);
+            }
+        });
     }
 }

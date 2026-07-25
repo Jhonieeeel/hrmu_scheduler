@@ -18,6 +18,8 @@ type LeaveProps = {
 };
 
 export default function Index({ leaves, filters, flash }: LeaveProps) {
+    console.log(leaves);
+
     function handleFilter(key: keyof Filters, value: string | null) {
         const newFilters = {
             ...filters,

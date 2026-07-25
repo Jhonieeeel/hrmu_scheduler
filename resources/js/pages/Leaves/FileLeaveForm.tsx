@@ -27,7 +27,14 @@ import leave from '@/routes/leave';
 import { User } from '@/types';
 import { Form, Head, Link, useForm, usePage } from '@inertiajs/react';
 
-import { differenceInDays, format, isValid, parse } from 'date-fns';
+import {
+    differenceInDays,
+    format,
+    isBefore,
+    isValid,
+    parse,
+    parseISO,
+} from 'date-fns';
 import { CalendarIcon, InfoIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -55,6 +62,24 @@ const event_types: EventType[] = [
     { id: 2, leave_type: 'Sick Leave' },
     { id: 3, leave_type: 'Force Leave' },
     { id: 4, leave_type: 'Wellness Leave' },
+    { id: 5, leave_type: 'Paternity leave' },
+    { id: 6, leave_type: 'Special Privilege leave' },
+    { id: 7, leave_type: 'Solo Parent Leave' },
+    { id: 8, leave_type: '10-day VAWC Leave' },
+    { id: 9, leave_type: 'Special Emergency (Calamity) Leave' },
+    { id: 10, leave_type: 'Maternity Leave' },
+    { id: 11, leave_type: 'Study Leave' },
+    { id: 12, leave_type: 'Rehabilitation Leave' },
+    { id: 13, leave_type: 'Adoption Leave' },
+    { id: 14, leave_type: 'CTO' },
+    { id: 15, leave_type: 'Offset' },
+];
+
+const calendarTypes = [
+    'maternity leave',
+    'study leave',
+    'rehabilitation leave',
+    'adoption leave',
 ];
 
 export default function FileLeaveForm() {
@@ -67,22 +92,30 @@ export default function FileLeaveForm() {
         user_id: 0,
         leave_type: '',
         event_type: 'deduction',
-        event_tag: 'leave',
+        event_tag: '',
         starts_at: '',
         ends_at: '',
         balance: 0,
     });
 
-    function handleSubmit(e: React.SubmitEvent) {
-        const days =
-            differenceInDays(form.data.ends_at, form.data.starts_at) + 1;
-
-        form.setData({
-            ...form.data,
-            balance: -days,
-        });
-
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        const startDate = parseISO(form.data.starts_at);
+        const endDate = parseISO(form.data.ends_at);
+
+        if (isBefore(endDate, startDate)) {
+            form.setError('ends_at', 'End date cannot be before start date');
+            return;
+        }
+
+        form.transform((data) => ({
+            ...data,
+            event_tag: ['cto', 'offset'].includes(form.data.leave_type)
+                ? 'cto'
+                : 'leave',
+        }));
+
         form.submit(leave.store(), {
             onSuccess: () => {
                 form.reset();

@@ -40,6 +40,7 @@ export default function UserBalance({
     user,
     hasAccrual,
 }: UserBalanceProps) {
+    console.log(transactions);
     function handleFilter(key: keyof Filters, value: string | null) {
         const newFilters = {
             ...filters,

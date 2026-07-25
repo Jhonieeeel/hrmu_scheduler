@@ -31,8 +31,24 @@ const event_types = [
     { id: 2, leave_type: 'Sick Leave' },
     { id: 3, leave_type: 'Force Leave' },
     { id: 4, leave_type: 'Wellness Leave' },
-    { id: 5, leave_type: 'CTO' },
-    { id: 6, leave_type: 'Offset' },
+    { id: 5, leave_type: 'Paternity leave' },
+    { id: 6, leave_type: 'Special Privilege leave' },
+    { id: 7, leave_type: 'Solo Parent Leave' },
+    { id: 8, leave_type: '10-day VAWC Leave' },
+    { id: 9, leave_type: 'Special Emergency (Calamity) Leave' },
+    { id: 10, leave_type: 'Maternity Leave' },
+    { id: 11, leave_type: 'Study Leave' },
+    { id: 12, leave_type: 'Rehabilitation Leave' },
+    { id: 13, leave_type: 'Adoption Leave' },
+    { id: 14, leave_type: 'CTO' },
+    { id: 15, leave_type: 'Offset' },
+];
+
+const calendarTypes = [
+    'maternity leave',
+    'study leave',
+    'rehabilitation leave',
+    'adoption leave',
 ];
 
 export default function LeaveFormDialog({
@@ -51,7 +67,7 @@ export default function LeaveFormDialog({
         balance: 0,
     });
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    function handleSubmit(e: React.SubmitEvent) {
         e.preventDefault();
 
         const startDate = parseISO(form.data.starts_at);
@@ -62,11 +78,8 @@ export default function LeaveFormDialog({
             return;
         }
 
-        const days = differenceInDays(endDate, startDate) + 1;
-
         form.transform((data) => ({
             ...data,
-            balance: -days,
             event_tag: ['cto', 'offset'].includes(form.data.leave_type)
                 ? 'cto'
                 : 'leave',

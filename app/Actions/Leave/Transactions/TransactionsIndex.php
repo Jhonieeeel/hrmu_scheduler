@@ -15,7 +15,7 @@ class TransactionsIndex
             ->whereNotIn('leave_type', ['monthly filing'])
             ->whereMonth('starts_at', $date->copy()->month)
             ->whereYear('starts_at', $date->copy()->year)
-            ->paginate(10)
+            ->paginate(5)
             ->withQueryString()
         ;
     }

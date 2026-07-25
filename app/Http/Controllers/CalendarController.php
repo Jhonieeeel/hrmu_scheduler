@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Leave\Calendar\AddHolidayAction;
 use App\Actions\Leave\Calendar\CalendarIndexAction;
 use App\Actions\Leave\Calendar\CalendarUpdateAction;
 use App\Actions\Leave\CalendarDeleteAction;
+use App\Data\HolidayData;
 use App\Data\LeaveData;
 use App\Models\Leave;
 use App\Models\User;
@@ -22,6 +24,13 @@ class CalendarController extends Controller
             'calendarEvents' => $events,
             'users' => User::select(['id', 'name'])->get()
         ]);
+    }
+
+    public function store(HolidayData $holidayData, AddHolidayAction $addHolidayAction)
+    {
+        $addHolidayAction($holidayData);
+
+        return to_route('calendar.index')->with('message', 'Holiday Created');
     }
 
     public function update(Leave $leave, LeaveData $data, CalendarUpdateAction $action): RedirectResponse

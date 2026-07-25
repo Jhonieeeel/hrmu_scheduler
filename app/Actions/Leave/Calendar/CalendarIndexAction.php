@@ -2,6 +2,7 @@
 
 namespace App\Actions\Leave\Calendar;
 
+use App\Models\Holiday;
 use App\Models\Leave;
 use Carbon\Carbon;
 
@@ -9,7 +10,22 @@ class CalendarIndexAction
 {
     public function __invoke()
     {
-        return Leave::query()
+        $year = now()->year;
+
+        $holidays = Holiday::all()->map(function ($holiday) use ($year) {
+            $date = Carbon::create($year, $holiday->month, $holiday->day)->format('Y-m-d');
+
+            return [
+                'id'            => "holiday-{$holiday->id}",
+                'title'         => $holiday->holiday_name,
+                'start'         => $date,
+                'end'           => $date,
+                'calendarTitle' => 'Holiday',
+                'calendarId'    => 'holiday',
+            ];
+        });
+
+        $leaves = Leave::query()
             ->with('user:id,name')
             ->where('event_type', 'deduction')
             ->whereIn('event_tag', ['leave', 'vacation leave', 'cto', 'offset'])
@@ -33,5 +49,7 @@ class CalendarIndexAction
                     'calendarId'    => $leave->leave_type,
                 ];
             });
+
+        return $leaves->concat($holidays)->values();
     }
 }

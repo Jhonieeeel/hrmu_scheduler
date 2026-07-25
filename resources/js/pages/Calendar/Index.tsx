@@ -3,6 +3,17 @@ import leave from '@/routes/leave';
 import { Head, Link } from '@inertiajs/react';
 import { EventProp, User } from '@/types';
 import LeaveCalendar from './components/LeaveCalendar';
+import { CalendarIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
+import AddHolidayDialog from './components/AddHolidayDialog';
 
 type CalendarProp = {
     calendarEvents: EventProp[];
@@ -27,7 +38,7 @@ export default function Index({ calendarEvents, users }: CalendarProp) {
                     </span>
                 </div>
 
-                <div>
+                <div className="flex items-center justify-between">
                     <div className="space-y-2">
                         <h1 className="flex items-center gap-4 text-4xl leading-tight font-bold tracking-tight text-foreground">
                             Calendar Scheduling
@@ -39,6 +50,8 @@ export default function Index({ calendarEvents, users }: CalendarProp) {
                             departments.
                         </p>
                     </div>
+
+                    <AddHolidayDialog />
                 </div>
                 <div>
                     <LeaveCalendar

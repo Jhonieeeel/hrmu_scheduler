@@ -6,12 +6,14 @@ use App\Actions\Leave\Balance\HasAccrualAction;
 use App\Actions\Leave\Balance\MonthlyAccrualAction;
 use App\Actions\Leave\Balance\ReplayBalanceAction;
 use App\Actions\Leave\Export\ExportPdfAction;
+use App\Actions\Leave\Holiday\CheckDateRangeAction;
 use App\Actions\Leave\Transactions\LeaveAction;
 use App\Actions\Leave\Transactions\TransactionsIndex;
 use App\Data\LeaveData;
 use App\Models\Leave;
 use App\Models\User;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Inertia\Inertia;
@@ -79,9 +81,13 @@ class LeaveController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, LeaveData $leaveData, LeaveAction $action)
+    public function store(Request $request, LeaveData $leaveData, LeaveAction $action, CheckDateRangeAction $checkDateRangeAction)
     {
-        $action($leaveData);
+
+        $weekdays = $checkDateRangeAction->checkDateRange($leaveData);
+
+        $action->createLeaves($weekdays, $leaveData);
+
 
         return back()->with('message', 'Filed Leave Successfully');
     }

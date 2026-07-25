@@ -192,11 +192,9 @@
     height: 3000px;
     max-height: 100vh;
 
-    /* Background = page background */
     --sx-color-background: var(--background);
     --sx-color-on-background: var(--foreground);
 
-    /* Surface = card/table background */
     --sx-color-surface: var(--card);
     --sx-color-surface-dim: var(--muted);
     --sx-color-surface-bright: var(--card);
@@ -205,23 +203,19 @@
     --sx-color-surface-container-low: var(--background);
     --sx-color-surface-container-high: var(--muted);
 
-    /* Grid lines / dividers */
     --sx-color-outline: oklch(0.82 0.015 280);
     --sx-color-outline-variant: oklch(0.88 0.015 280);
 
-    /* Primary = brand navy (today circle, selected states) */
     --sx-color-primary: var(--brand);
     --sx-color-on-primary: var(--brand-foreground);
     --sx-color-primary-container: var(--secondary);
     --sx-color-on-primary-container: var(--secondary-foreground);
 
-    /* Secondary = brand orange accent */
     --sx-color-secondary: var(--brand-accent);
     --sx-color-on-secondary: var(--brand-accent-foreground);
     --sx-color-secondary-container: var(--muted);
     --sx-color-on-secondary-container: var(--muted-foreground);
 
-    /* Tertiary — no dedicated slot, safe neutral fallback */
     --sx-color-tertiary: var(--muted-foreground);
     --sx-color-on-tertiary: var(--background);
     --sx-color-tertiary-container: var(--muted);
@@ -230,7 +224,6 @@
     --sx-color-shadow: var(--foreground);
     --sx-color-surface-tint: var(--brand);
 
-    /* Text — must be explicit or it falls back to hardcoded black */
     --sx-internal-color-text: var(--foreground);
     --sx-internal-color-light-gray: var(--muted);
     --sx-internal-color-gray-ripple-background: var(--muted);
@@ -242,11 +235,11 @@
     font-size: 13px !important;
     margin-bottom: 3px !important;
 }
-
+/* 
 .dark .sx-react-calendar-wrapper {
     --sx-color-outline: oklch(0.32 0.04 280);
     --sx-color-outline-variant: oklch(0.28 0.04 280);
-}
+} */
 
 @layer base {
     * {

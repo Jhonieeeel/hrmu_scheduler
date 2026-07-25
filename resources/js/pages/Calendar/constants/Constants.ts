@@ -83,4 +83,8 @@ export const calendarConfig = {
         colorName: 'absent',
         ...orange,
     },
+    holiday: {
+        colorName: 'holiday',
+        ...orange,
+    },
 };

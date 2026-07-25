@@ -30,6 +30,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put("calendar/{leave}/update", [CalendarController::class, 'update'])->name('calendar.update');
     Route::delete("calendar/{leave}/delete", [CalendarController::class, "destroy"])->name("calendar.destroy");
 
+    // Holuday
+    Route::post("calendar/holiday/add", [CalendarController::class, 'store'])->name('calendar.store');
+
     // file
     Route::get("leaves/export", [LeaveController::class, 'export'])->name('leave.export');
 

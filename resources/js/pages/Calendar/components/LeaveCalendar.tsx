@@ -62,6 +62,9 @@ export default function LeaveCalendar({
         },
         callbacks: {
             onEventClick(event) {
+                if (event.calendarId === 'holiday') {
+                    return;
+                }
                 setEvent({
                     id: event.id,
                     title: event.calendarTitle ?? '',
